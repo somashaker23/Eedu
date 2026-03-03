@@ -46,9 +46,12 @@ class EventViewModelTest {
     fun `insertEvent calls repository insertEvent`() = runTest {
         val event = Event(name = "Test Event", type = "Wedding", date = "01-01-2024")
         whenever(repository.insertEvent(event)).thenReturn(1L)
+        whenever(repository.allEvents).thenReturn(androidx.lifecycle.MutableLiveData(emptyList()))
 
-        // Test would require LiveData mock for allEvents
-        // This validates the repository interaction
-        verify(repository, org.mockito.kotlin.times(0)).insertEvent(event)
+        viewModel = EventViewModel(repository)
+        viewModel.insertEvent(event)
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        verify(repository, org.mockito.kotlin.times(1)).insertEvent(event)
     }
 }

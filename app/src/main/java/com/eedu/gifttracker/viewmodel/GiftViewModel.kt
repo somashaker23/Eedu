@@ -24,8 +24,6 @@ class GiftViewModel(private val repository: GiftRepository) : ViewModel() {
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
-    private var giftsLiveData: LiveData<List<Gift>>? = null
-
     fun getGiftsForEvent(eventId: Long): LiveData<List<Gift>> {
         _eventId = eventId
         return repository.getGiftsForEvent(eventId)
