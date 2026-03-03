@@ -7,11 +7,6 @@ import kotlinx.coroutines.launch
 
 class GiftViewModel(private val repository: GiftRepository) : ViewModel() {
 
-    private var _eventId: Long = 0
-
-    private val _gifts = MutableLiveData<List<Gift>>()
-    val gifts: LiveData<List<Gift>> = _gifts
-
     private val _totalAmount = MutableLiveData<Double>()
     val totalAmount: LiveData<Double> = _totalAmount
 
@@ -25,7 +20,6 @@ class GiftViewModel(private val repository: GiftRepository) : ViewModel() {
     val error: LiveData<String> = _error
 
     fun getGiftsForEvent(eventId: Long): LiveData<List<Gift>> {
-        _eventId = eventId
         return repository.getGiftsForEvent(eventId)
     }
 
