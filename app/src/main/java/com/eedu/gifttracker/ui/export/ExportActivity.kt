@@ -23,6 +23,8 @@ class ExportActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityExportBinding
     private lateinit var exportViewModel: ExportViewModel
+    private lateinit var eventRepository: EventRepository
+    private lateinit var giftRepository: GiftRepository
     private var eventId: Long = 0
     private var currentEvent: Event? = null
     private var currentGifts: List<Gift> = emptyList()
@@ -39,8 +41,8 @@ class ExportActivity : AppCompatActivity() {
         eventId = intent.getLongExtra(Constants.EXTRA_EVENT_ID, 0)
 
         val database = EeduDatabase.getDatabase(applicationContext)
-        val eventRepository = EventRepository(database.eventDao())
-        val giftRepository = GiftRepository(database.giftDao())
+        eventRepository = EventRepository(database.eventDao())
+        giftRepository = GiftRepository(database.giftDao())
 
         exportViewModel = ViewModelProvider(
             this,
@@ -53,9 +55,8 @@ class ExportActivity : AppCompatActivity() {
 
     private fun loadData() {
         lifecycleScope.launch {
-            val db = EeduDatabase.getDatabase(applicationContext)
-            currentEvent = db.eventDao().getEventById(eventId)
-            currentGifts = db.giftDao().getGiftsForEventList(eventId)
+            currentEvent = eventRepository.getEventById(eventId)
+            currentGifts = giftRepository.getGiftsForEventList(eventId)
 
             currentEvent?.let { event ->
                 binding.textViewEventName.text = event.name
@@ -121,8 +122,11 @@ class ExportActivity : AppCompatActivity() {
             "${packageName}.fileprovider",
             file
         )
-        val mimeType = if (file.name.endsWith(".pdf")) "application/pdf" else
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        val mimeType = when {
+            file.name.endsWith(".pdf") -> "application/pdf"
+            file.name.endsWith(".xlsx") -> "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            else -> "application/octet-stream"
+        }
 
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = mimeType

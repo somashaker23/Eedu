@@ -11,6 +11,7 @@ import com.eedu.gifttracker.data.database.entities.Gift
 import com.eedu.gifttracker.data.repository.GiftRepository
 import com.eedu.gifttracker.databinding.ActivityAddGiftBinding
 import com.eedu.gifttracker.util.Constants
+import com.eedu.gifttracker.util.GiftValidator
 import com.eedu.gifttracker.viewmodel.GiftViewModel
 import kotlinx.coroutines.launch
 
@@ -21,6 +22,7 @@ class AddGiftActivity : AppCompatActivity() {
     private var eventId: Long = 0
     private var giftId: Long = 0
     private var existingGift: Gift? = null
+    private lateinit var repository: GiftRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +36,7 @@ class AddGiftActivity : AppCompatActivity() {
         giftId = intent.getLongExtra(Constants.EXTRA_GIFT_ID, 0)
 
         val database = EeduDatabase.getDatabase(applicationContext)
-        val repository = GiftRepository(database.giftDao())
+        repository = GiftRepository(database.giftDao())
         giftViewModel = ViewModelProvider(
             this,
             GiftViewModel.Factory(repository)
@@ -60,8 +62,7 @@ class AddGiftActivity : AppCompatActivity() {
         if (giftId > 0) {
             supportActionBar?.title = "Edit Gift"
             lifecycleScope.launch {
-                val db = EeduDatabase.getDatabase(applicationContext)
-                existingGift = db.giftDao().getGiftById(giftId)
+                existingGift = repository.getGiftById(giftId)
                 existingGift?.let { populateFields(it) }
             }
         } else {
@@ -91,12 +92,12 @@ class AddGiftActivity : AppCompatActivity() {
             val relationship = binding.spinnerRelationship.selectedItem.toString()
             val paymentMethod = binding.spinnerPaymentMethod.selectedItem.toString()
 
-            if (name.isEmpty()) {
+            if (!GiftValidator.isValidGiverName(name)) {
                 binding.editTextGiverName.error = "Name is required"
                 return@setOnClickListener
             }
-            val amount = amountStr.toDoubleOrNull()
-            if (amount == null || amount <= 0) {
+            val amount = GiftValidator.parseAmount(amountStr)
+            if (amount == null) {
                 binding.editTextAmount.error = "Enter a valid amount"
                 return@setOnClickListener
             }

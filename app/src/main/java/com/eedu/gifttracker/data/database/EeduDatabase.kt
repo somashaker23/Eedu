@@ -12,7 +12,7 @@ import com.eedu.gifttracker.data.database.entities.Gift
 @Database(
     entities = [Event::class, Gift::class],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 abstract class EeduDatabase : RoomDatabase() {
     abstract fun eventDao(): EventDao

@@ -2,7 +2,8 @@ package com.eedu.gifttracker.util
 
 object Constants {
     const val FREE_TIER_GIFT_LIMIT = 100
-    const val PAYMENT_AMOUNT_PAISE = 10000 // ₹100 in paise
+    // Amount in paise for Razorpay payment integration (₹100 = 10000 paise)
+    const val PAYMENT_AMOUNT_PAISE = 10000
     
     val EVENT_TYPES = listOf(
         "Wedding",
