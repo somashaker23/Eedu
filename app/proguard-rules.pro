@@ -1,0 +1,7 @@
+-keep class com.eedu.gifttracker.** { *; }
+-keep class com.itextpdf.** { *; }
+-keep class org.apache.poi.** { *; }
+-dontwarn com.itextpdf.**
+-dontwarn org.apache.poi.**
+-dontwarn org.bouncycastle.**
+-dontwarn org.slf4j.**

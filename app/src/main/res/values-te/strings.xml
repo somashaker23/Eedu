@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ఈడు - గిఫ్ట్ ట్రాకర్</string>
+    <string name="no_events_message">ఇంకా ఈవెంట్లు లేవు.\n+ నొక్కి మీ మొదటి ఈవెంట్ సృష్టించండి!</string>
+    <string name="add_event">ఈవెంట్ జోడించు</string>
+    <string name="add_gift">కానుక జోడించు</string>
+    <string name="event_name">ఈవెంట్ పేరు</string>
+    <string name="event_type">ఈవెంట్ రకం</string>
+    <string name="event_date">ఈవెంట్ తేదీ</string>
+    <string name="giver_name">ఇచ్చిన వారి పేరు</string>
+    <string name="amount">మొత్తం (₹)</string>
+    <string name="relationship">సంబంధం</string>
+    <string name="payment_method">చెల్లింపు పద్ధతి</string>
+    <string name="village">గ్రామం / ప్రాంతం</string>
+    <string name="notes">గమనికలు (ఐచ్ఛికం)</string>
+    <string name="save">సేవ్ చేయి</string>
+    <string name="edit">సవరించు</string>
+    <string name="delete">తొలగించు</string>
+    <string name="export">ఎగుమతి</string>
+    <string name="export_pdf">PDF గా ఎగుమతి చేయి</string>
+    <string name="export_excel">Excel గా ఎగుమతి చేయి</string>
+    <string name="free_tier_info">గమనిక: 100 కానుకల వరకు ఎగుమతి ఉచితం. అంతకంటే ఎక్కువకు ₹100 చెల్లింపు అవసరం.</string>
+</resources>
